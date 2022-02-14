@@ -50,18 +50,21 @@ func main() {
 	}
 
 	ArtistStruct := artistUnmarshler(url[0])
-	// locationStruct := locationUnmarshler(url[1])
+	locationStruct := locationUnmarshler(url[1])
 	// dataStruct := datesUnmarshler(url[2])
-	// relationStruct := relationUnmarshler(url[3])
+	//  relationStruct := relationUnmarshler(url[3])
 	fmt.Println(ArtistStruct[5].Name)
-	// fmt.Println(locationStruct[5].Locations)
+	fmt.Println(locationStruct[5].Locations)
 	// fmt.Println(dataStruct[5].Dates)
-	// fmt.Println(relationStruct)
+	//  fmt.Println(relationStruct)
 
-	mux:= http.NewServeMux()
-	mux.HandleFunc("/main", mainPage)
-	 if err := http.ListenAndServe(":8070", mux); err!= nil{
-		 log.Fatal( "500 Internal server Error\n", err)}
+	mux := http.NewServeMux()
+	mux.HandleFunc("./main", home)
+
+	mux.HandleFunc("/artist", artist)
+	if err := http.ListenAndServe(":8070", mux); err != nil {
+		log.Fatal("500 Internal server Error\n", err)
+	}
 	// for k, v := range relationStruct{
 	// 	switch c:= v.(type){
 	// 	case string:
@@ -73,7 +76,6 @@ func main() {
 	// 	}
 	// }
 
-	
 }
 
 func artistUnmarshler(link string) []Artists {
@@ -92,7 +94,7 @@ func artistUnmarshler(link string) []Artists {
 
 	var result []Artists
 	if err3 := json.Unmarshal(body, &result); err3 != nil {
-		log.Fatal(err3, "can not unmarshal JSON")
+		log.Fatal(err3, "can not unmarshal JSON\n")
 	}
 
 	return result
@@ -138,6 +140,7 @@ func datesUnmarshler(link string) []Dates {
 
 //relationUnmarshler unmarshals json map file into [string]interface{}
 func relationUnmarshler(link string) map[string]interface{} {
+	
 	relationResponse, err := http.Get(link)
 	if err != nil {
 		log.Fatal(err)
@@ -160,8 +163,19 @@ func relationUnmarshler(link string) map[string]interface{} {
 	return x
 
 }
+func home(writer http.ResponseWriter, request *http.Request) {
 
-func mainPage( writer http.ResponseWriter, request *http.Request){
-	writer.Write([]byte("hello world"))
-	 
+	writer.Write([]byte("hello"))
+}
+
+func artist(writer http.ResponseWriter, request *http.Request) {
+	writer.Write([]byte("hello world\n"))
+	output := artistUnmarshler("https://groupietrackers.herokuapp.com/api/artists")
+	index := 5
+	writer.Write([]byte(output[index].Name))
+	fmt.Fprintln(writer, output[index].Image)
+	fmt.Fprintln(writer, output[index].Members)
+	fmt.Fprintln(writer, output[index].CreationDate)
+	fmt.Fprintln(writer, output[index].FirstAlbum, "\n")
+
 }
