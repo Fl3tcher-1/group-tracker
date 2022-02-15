@@ -5,10 +5,13 @@ import (
 	// "errors"
 	"encoding/json"
 	"fmt"
+	"html/template"
 	"io/ioutil"
 	"log"
 	"net/http"
 )
+
+var siteTemplate *template.Template
 
 type Artists struct {
 	ID           int      `json:"id"`
@@ -48,6 +51,7 @@ func main() {
 		"https://groupietrackers.herokuapp.com/api/dates",
 		"https://groupietrackers.herokuapp.com/api/relation",
 	}
+	siteTemplate = template.Must(template.ParseFiles("main/main.html"))
 
 	ArtistStruct := artistUnmarshler(url[0])
 	locationStruct := locationUnmarshler(url[1])
@@ -62,7 +66,7 @@ func main() {
 	mux.HandleFunc("./main", home)
 
 	mux.HandleFunc("/artist", artist)
-	if err := http.ListenAndServe(":8070", mux); err != nil {
+	if err := http.ListenAndServe(":8080", mux); err != nil {
 		log.Fatal("500 Internal server Error\n", err)
 	}
 	// for k, v := range relationStruct{
@@ -140,7 +144,7 @@ func datesUnmarshler(link string) []Dates {
 
 //relationUnmarshler unmarshals json map file into [string]interface{}
 func relationUnmarshler(link string) map[string]interface{} {
-	
+
 	relationResponse, err := http.Get(link)
 	if err != nil {
 		log.Fatal(err)
@@ -169,13 +173,27 @@ func home(writer http.ResponseWriter, request *http.Request) {
 }
 
 func artist(writer http.ResponseWriter, request *http.Request) {
-	writer.Write([]byte("hello world\n"))
+	// writer.Write([]byte("hello world\n"))
 	output := artistUnmarshler("https://groupietrackers.herokuapp.com/api/artists")
 	index := 5
-	writer.Write([]byte(output[index].Name))
-	fmt.Fprintln(writer, output[index].Image)
-	fmt.Fprintln(writer, output[index].Members)
-	fmt.Fprintln(writer, output[index].CreationDate)
-	fmt.Fprintln(writer, output[index].FirstAlbum, "\n")
 
+	// var titleName = [5]string{
+		// "Name", "Image", "Members", "Creation Date", "First Album"}
+	// json.NewEncoder(writer).Encode(output) // is this needed???
+	// writer.Write([]byte(output[index].Name))
+	// fmt.Fprintln(writer, output[index].Image)
+	// fmt.Fprintln(writer, output[index].Members)
+	// fmt.Fprintln(writer, output[index].CreationDate)
+	// fmt.Fprintln(writer, output[index].FirstAlbum, "\n")
+	writer.Header().Set("Content-Type", "text/html") // this tells the program to expect html files and to output files as html
+
+	// for _, title := range titleName{
+	// 	siteTemplate.Execute(writer, title )
+	// }
+	siteTemplate.Execute(writer, output[index].Name)
+	siteTemplate.Execute(writer, output[index].Image)
+	siteTemplate.Execute(writer, output[index].Members)
+	siteTemplate.Execute(writer, output[index].CreationDate)
+	siteTemplate.Execute(writer, output[index].FirstAlbum)
+		// fmt.Fprintf()
 }
