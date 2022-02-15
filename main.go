@@ -168,32 +168,33 @@ func relationUnmarshler(link string) map[string]interface{} {
 
 }
 func home(writer http.ResponseWriter, request *http.Request) {
-
+	fmt.Fprint(writer, "hello")
 	writer.Write([]byte("hello"))
 }
 
 func artist(writer http.ResponseWriter, request *http.Request) {
 	// writer.Write([]byte("hello world\n"))
-	output := artistUnmarshler("https://groupietrackers.herokuapp.com/api/artists")
+	artistOutput := artistUnmarshler("https://groupietrackers.herokuapp.com/api/artists")
 	index := 5
 
 	// var titleName = [5]string{
 		// "Name", "Image", "Members", "Creation Date", "First Album"}
-	// json.NewEncoder(writer).Encode(output) // is this needed???
-	// writer.Write([]byte(output[index].Name))
-	// fmt.Fprintln(writer, output[index].Image)
-	// fmt.Fprintln(writer, output[index].Members)
-	// fmt.Fprintln(writer, output[index].CreationDate)
-	// fmt.Fprintln(writer, output[index].FirstAlbum, "\n")
-	writer.Header().Set("Content-Type", "text/html") // this tells the program to expect html files and to output files as html
+	// json.NewEncoder(writer).Encode(artistOutput) // is this needed???
+	// writer.Write([]byte(artistOutput[index].Name))
+	// fmt.Fprintln(writer, artistOutput[index].Image)
+	// fmt.Fprintln(writer, artistOutput[index].Members)
+	// fmt.Fprintln(writer, artistOutput[index].CreationDate)
+	// fmt.Fprintln(writer, artistOutput[index].FirstAlbum, "\n")
+	writer.Header().Set("Content-Type", "text/html") // this tells the program to expect html files and to artistOutput files as html
 
 	// for _, title := range titleName{
 	// 	siteTemplate.Execute(writer, title )
 	// }
-	siteTemplate.Execute(writer, output[index].Name)
-	siteTemplate.Execute(writer, output[index].Image)
-	siteTemplate.Execute(writer, output[index].Members)
-	siteTemplate.Execute(writer, output[index].CreationDate)
-	siteTemplate.Execute(writer, output[index].FirstAlbum)
+
+	siteTemplate.Execute(writer, artistOutput[index].Name)
+	siteTemplate.Execute(writer, artistOutput[index].Image)
+	siteTemplate.Execute(writer, artistOutput[index].Members)
+	siteTemplate.Execute(writer, artistOutput[index].CreationDate)
+	siteTemplate.Execute(writer, artistOutput[index].FirstAlbum)
 		// fmt.Fprintf()
 }
