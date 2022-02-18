@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+    <link rel ="stylesheet" href="style" type ="text/css"  />
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+    <title>Home</title>
+    <h1>Welcome to Groupie Tracker</h1>
+      <h2>Click an artist to see their full details:</h2>
+
+<body>
+    <div class ="container grid">
+        {{range . }}
+        <a href ="artist">
+        <div class ="cell"><img src ="{{.Image}}"></div>
+        </a>
+        {{end}}
+
+    </div>
+</body>
+</html>

@@ -11,6 +11,7 @@ import (
 	"net/http"
 )
 
+var homeTemplate *template.Template
 var siteTemplate *template.Template
 
 type Artists struct {
@@ -51,37 +52,30 @@ func main() {
 		"https://groupietrackers.herokuapp.com/api/dates",
 		"https://groupietrackers.herokuapp.com/api/relation",
 	}
-	siteTemplate = template.Must(template.ParseFiles("main/main.html"))
-
-	ArtistStruct := artistUnmarshler(url[0])
+	homeTemplate = template.Must(template.ParseFiles("main/home.html"))
+	siteTemplate = template.Must(template.ParseFiles("main/artists.html"))
+	
+	// ArtistStruct := artistUnmarshler(url[0])
 	locationStruct := locationUnmarshler(url[1])
 	// dataStruct := datesUnmarshler(url[2])
 	//  relationStruct := relationUnmarshler(url[3])
-	fmt.Println(ArtistStruct[5].Name)
+	// fmt.Println(ArtistStruct)
 	fmt.Println(locationStruct[5].Locations)
 	// fmt.Println(dataStruct[5].Dates)
 	//  fmt.Println(relationStruct)
 
 	mux := http.NewServeMux()
-	mux.HandleFunc("./main", home)
-
+	mux.HandleFunc("/main", home)
+	mux.HandleFunc("/style", css) // this handles css extension so html template can use it
 	mux.HandleFunc("/artist", artist)
+	fmt.Printf("Starting server at port 8080\n\t -----------\nhttp://localhost:8080/main\n")
+
 	if err := http.ListenAndServe(":8080", mux); err != nil {
 		log.Fatal("500 Internal server Error\n", err)
 	}
-	// for k, v := range relationStruct{
-	// 	switch c:= v.(type){
-	// 	case string:
-	// 		fmt.Printf("item in &q is a string containing %q\n", k, c)
-	// 	case float64:
-	// 		fmt.Printf("Looks like item %q is a number, specifically %f\n",k, c)
-	// 	default:
-	// 		fmt.Printf("no idea on the type that %q is but it may be %T\n",k,c)
-	// 	}
-	// }
+
 
 }
-
 func artistUnmarshler(link string) []Artists {
 	response, err := http.Get(link)
 	//var artist Artists
@@ -102,6 +96,9 @@ func artistUnmarshler(link string) []Artists {
 	}
 
 	return result
+}
+func css (writer http.ResponseWriter, r *http.Request){
+	http.ServeFile(writer, r, "./main/style.css") // tells html to look for css file in current directory/main/style.css
 }
 
 func locationUnmarshler(link string) []Locations {
@@ -168,8 +165,17 @@ func relationUnmarshler(link string) map[string]interface{} {
 
 }
 func home(writer http.ResponseWriter, request *http.Request) {
-	fmt.Fprint(writer, "hello")
-	writer.Write([]byte("hello"))
+	artistOutput := artistUnmarshler("https://groupietrackers.herokuapp.com/api/artists")
+	var images []string
+	writer.Header().Set("Content-Type", "text/html") // this tells the program to expect html files and to artistOutput files as html
+	for i :=0; i < 50; i++{
+		images = append(images, artistOutput[i].Image)
+		
+	}
+	
+	homeTemplate.Execute(writer, artistOutput) 
+
+	
 }
 
 func artist(writer http.ResponseWriter, request *http.Request) {
