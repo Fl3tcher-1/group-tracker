@@ -12,13 +12,13 @@ h2{
     text-align: center;
     color: antiquewhite;
 }
-hname{
-    font-size: 30px;
-    color: aliceblue;
-    padding: 4rem;
+h3{
+    text-align: center;
+    color: antiquewhite;
 }
 
 .button{
+    align-items: center;
     size: 50px;
     color: blue;
 }
@@ -45,4 +45,7 @@ body{
  .cell:hover{
      background-color:rgb(53, 52, 52);
      size: 250px;
+ }
+ p3{
+     align-items: center;
  }

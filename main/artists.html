@@ -9,30 +9,22 @@
 
     </head>
     <body>
-        <!-- {{range .}} -->
         <title> {{.Name}}</title>
-        <hname>{{.Name}}</hname><br>
-        <img src ="{{.Image}}"><br><br>
-        <h7>Members:</h7><br>
+        <h1>{{.Name}}</h1>
+        <h1><img src ="{{.Image}}"></h1><br><br>
+        <h2>Members: <br>
         {{.Members}}
+    </h2><br>
+        <h2>Creation Date: <br>
+        {{.CreationDate}}</h2>
         <br>
-        <h7>Creation Date:</h7> <br>
-        {{.CreationDate}}
+        <h2>First Album:<br>
+        {{.FirstAlbum}} </h2>
         <br>
-        <h7>First Album:</h7><br>
-        {{.FirstAlbum}}
-        <br>
-
-        <a href ="main">
-            <button type="button">Go Back</button>
-            </a>
-
-        <br> <br>
-        <!-- {{end}} -->
         <br><br>
         <main>
             <header>
-                <a href ="main">
+                <a href ="/main">
                 <button type="button">Go Back</button>
                 </a>
             </header>

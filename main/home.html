@@ -14,11 +14,11 @@
 <body>
     <div class ="container grid">
         {{range . }}
-            
-        <a href ="artist" title="{{.Name}}">
-
-        <div class ="cell"><img src ="{{.Image}}"></div>
-        </a>
+        <form method="post" action="artist/{{.ID}}">
+        <div class ="cell">
+            <input type="image" src ="{{.Image}}" >
+        </div>
+    </form>
 
         {{end}}
 
