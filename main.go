@@ -166,41 +166,34 @@ func relationUnmarshler(link string) map[string]interface{} {
 }
 func home(writer http.ResponseWriter, request *http.Request) {
 	artistOutput := artistUnmarshler("https://groupietrackers.herokuapp.com/api/artists")
-	var images []string
 	writer.Header().Set("Content-Type", "text/html") // this tells the program to expect html files and to artistOutput files as html
-	for i :=0; i < 50; i++{
-		images = append(images, artistOutput[i].Image)
-		
-	}
-	
+
 	homeTemplate.Execute(writer, artistOutput) 
 
+	keys := request.URL.Query()["image"]
+	fmt.Println(keys)
+	fmt.Println(request.Method)
+	fmt.Println(request.RequestURI)
+	
 	
 }
 
 func artist(writer http.ResponseWriter, request *http.Request) {
 	// writer.Write([]byte("hello world\n"))
 	artistOutput := artistUnmarshler("https://groupietrackers.herokuapp.com/api/artists")
-	index := 5
+	// index := 5
 
-	// var titleName = [5]string{
-		// "Name", "Image", "Members", "Creation Date", "First Album"}
-	// json.NewEncoder(writer).Encode(artistOutput) // is this needed???
-	// writer.Write([]byte(artistOutput[index].Name))
-	// fmt.Fprintln(writer, artistOutput[index].Image)
-	// fmt.Fprintln(writer, artistOutput[index].Members)
-	// fmt.Fprintln(writer, artistOutput[index].CreationDate)
-	// fmt.Fprintln(writer, artistOutput[index].FirstAlbum, "\n")
 	writer.Header().Set("Content-Type", "text/html") // this tells the program to expect html files and to artistOutput files as html
 
-	// for _, title := range titleName{
-	// 	siteTemplate.Execute(writer, title )
-	// }
+	if err := request.ParseForm(); err != nil {
+		return
+	}
+	request.ParseForm()
+	id := request.Form["id"]
+	fmt.Println(id)
+	text := request.FormValue("text")
+	fmt.Println(text)
 
-	siteTemplate.Execute(writer, artistOutput[index].Name)
-	siteTemplate.Execute(writer, artistOutput[index].Image)
-	siteTemplate.Execute(writer, artistOutput[index].Members)
-	siteTemplate.Execute(writer, artistOutput[index].CreationDate)
-	siteTemplate.Execute(writer, artistOutput[index].FirstAlbum)
-		// fmt.Fprintf()
+	siteTemplate.Execute(writer, artistOutput)
+
 }

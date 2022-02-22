@@ -12,6 +12,11 @@ h2{
     text-align: center;
     color: antiquewhite;
 }
+hname{
+    font-size: 30px;
+    color: aliceblue;
+    padding: 4rem;
+}
 
 .button{
     size: 50px;
@@ -34,7 +39,7 @@ body{
      align-items: center;
      /* grid-template-columns: 1fr 1fr 1fr 1fr 1fr; */
      grid-gap: 1rem;
-     grid-template-columns: repeat(auto-fill, minmax(18rem, 1fr)); /*creates resposnsive layout that changes based on side of browser */
+     grid-template-columns: repeat(auto-fill, minmax(16rem, 1fr)); /*creates resposnsive layout that changes based on side of browser */
 
  }
  .cell:hover{

@@ -6,12 +6,29 @@
 
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title> Hello</title>
-        <h3> Place Title</h3>
 
     </head>
     <body>
-        {{.}}
+        <!-- {{range .}} -->
+        <title> {{.Name}}</title>
+        <hname>{{.Name}}</hname><br>
+        <img src ="{{.Image}}"><br><br>
+        <h7>Members:</h7><br>
+        {{.Members}}
+        <br>
+        <h7>Creation Date:</h7> <br>
+        {{.CreationDate}}
+        <br>
+        <h7>First Album:</h7><br>
+        {{.FirstAlbum}}
+        <br>
+
+        <a href ="main">
+            <button type="button">Go Back</button>
+            </a>
+
+        <br> <br>
+        <!-- {{end}} -->
         <br><br>
         <main>
             <header>

@@ -14,10 +14,14 @@
 <body>
     <div class ="container grid">
         {{range . }}
-        <a href ="artist">
+            
+        <a href ="artist" title="{{.Name}}">
+
         <div class ="cell"><img src ="{{.Image}}"></div>
         </a>
+
         {{end}}
+
 
     </div>
 </body>
