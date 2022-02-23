@@ -14,17 +14,25 @@ h2{
 }
 h3{
     text-align: center;
-    color: aqua;
+    color: rgb(185, 250, 250);
+    font-size: 30px;
+}
+h4 {
+    text-align: center;
+    color: antiquewhite;
+    font-size: 22px;
 }
 header{
     align-items: center;
 }
+.wrapper{
+    text-align: center;
+
+}
 
 .button{
-    width: 50%;
-    margin-left: 25%;
-    margin-right: 25%;
-    size: 50px;
+    position: absolute;
+    top: 50%;
     color: blue;
 }
 body{
@@ -39,17 +47,28 @@ body{
      padding: 1rem;
      align-items: center;
  }
+ .cells{
+     padding: 1rem;
+     align-items: center;
+ }
  .grid {
      display: grid;
      align-items: center;
      /* grid-template-columns: 1fr 1fr 1fr 1fr 1fr; */
      grid-gap: 1rem;
-     grid-template-columns: repeat(auto-fill, minmax(16rem, 1fr)); /*creates resposnsive layout that changes based on side of browser */
+     grid-template-columns: repeat(auto-fill, minmax(6.5rem, 1fr)); /*creates resposnsive layout that changes based on side of browser */
 
+ }
+ .grids{
+     display: grid;
+     align-items: center;
+     grid-gap: 1rem;
+     grid-template-rows: repeat(auto-fill, minmax(6rem,1fr));
  }
  .cell:hover{
      background-color:rgb(53, 52, 52);
      size: 250px;
+     transform: scale(1.1);
  }
  p3{
      align-items: center;

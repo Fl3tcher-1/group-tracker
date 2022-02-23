@@ -196,7 +196,7 @@ func home(writer http.ResponseWriter, request *http.Request) {
 }
 
 func artist(writer http.ResponseWriter, request *http.Request) {
-	if request.URL.Path == "/artist/style" {
+	if request.URL.Path == "/artist/style" {  //this gets rid of duplicated url path as the css is hosted at this address
 		return
 	}
 	url := [4]string{
@@ -207,10 +207,6 @@ func artist(writer http.ResponseWriter, request *http.Request) {
 	}
 	// writer.Write([]byte("hello world\n"))
 	artistOutput := artistUnmarshler(url[0])
-
-
-
-
 	locationStruct := locationUnmarshler(url[1])
 	dataStruct := datesUnmarshler(url[2])
 	relationStruct := relationUnmarshler(url[3])
@@ -220,27 +216,25 @@ func artist(writer http.ResponseWriter, request *http.Request) {
 	if err := request.ParseForm(); err != nil {
 		return
 	}
-	request.ParseForm()
-	r := request.URL.Path
+	request.ParseForm() //parses html form
+	r := request.URL.Path //requests the html path
 
-	idstr := strings.Trim(r, "/artist/")
-	id, err := strconv.Atoi(idstr)
+	idstr := strings.Trim(r, "/artist/") //trims it so only the "id" value remains
+	id, err := strconv.Atoi(idstr) //converts it to number
 	if err != nil {
-	}
-	id -= 1
+	log.Fatal(err)}
+	id -= 1 // -1 from id as it starts at 1 in html, but at 0 in our program
 
 	// s:= request.URL.Path
 
 	// fmt.Println(len(s), "s", s)
 	// fmt.Println(s)
-	var a Full
-	a.Artists = artistOutput[id] 
-	a.Locations = locationStruct[id]
-	a.Dates = dataStruct[id]
-	a.Relation = relationStruct[id]
+	var apiStruct Full // creates a new variable with struct type that holds all structs
+	apiStruct.Artists = artistOutput[id] //assigns corresponding struct with id to allows the parsing of an individual id, instead of all members
+	apiStruct.Locations = locationStruct[id]
+	apiStruct.Dates = dataStruct[id]
+	apiStruct.Relation = relationStruct[id]
 
-	fmt.Println(a)
-	siteTemplate.Execute(writer, a)
-	fmt.Println(artistOutput[id].Name)
+	siteTemplate.Execute(writer, apiStruct) //sends the struct with other struct data into template execution, to be used when needed
 
 }

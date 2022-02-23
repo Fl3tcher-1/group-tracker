@@ -11,31 +11,32 @@
     <body>
         <title> {{.Artists.Name}}</title>
         <h1>{{.Artists.Name}}</h1>
-        <h1><img src ="{{.Artists.Image}}"></h1><br><br>
-        <h2>Members: <br> <br>
-        {{range .Artists.Members}}
+        <h1><img src ="{{.Artists.Image}}"></h1>
+        <h3>Members: </h3>
+       <h4> {{range .Artists.Members}}
         {{.}} <br>
         {{end}}
-    </h2><br>
-        <h2>Creation Date: <br>
-        {{.Artists.CreationDate}}</h2>
-        <br>
-        <h2>First Album:<br>
-        {{.Artists.FirstAlbum}} </h2>
-        <br>
+    </h4>
+    
+        <h3>Creation Date: </h3>
+       <h4> {{.Artists.CreationDate}} </h2>
+        <h3>First Album:</h3>
+       <h4>{{.Artists.FirstAlbum}} </h4> 
         <h1>Tour dates & Locations</h1> 
         {{range $key, $value := .Relation.DatesLocations }}
             <h3>{{$key}}</h3>
             {{range $value}}
-            <h2>{{.}}</h2>
+            <h4>{{.}}</h4>
         {{end}}
         {{end}}
         <br><br>
         <main>
             <header>
+                <div class="wrapper">
                 <a href ="/main">
                 <button type="button">Go Back</button>
                 </a>
+                </div>
             </header>
         </main>
     </body>
