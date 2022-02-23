@@ -11,17 +11,16 @@ import (
 	"net/http"
 	"strconv"
 	"strings"
-	// "strings"
 )
 
 var homeTemplate *template.Template
 var siteTemplate *template.Template
 
 type Full struct {
-	Artists   []Artists
-	Locations []Locations
-	Dates     []Dates
-	Relation  []Relation
+	Artists   Artists
+	Locations Locations
+	Dates     Dates
+	Relation  Relation
 }
 type Artists struct {
 	ID           int      `json:"id"`
@@ -208,9 +207,13 @@ func artist(writer http.ResponseWriter, request *http.Request) {
 	}
 	// writer.Write([]byte("hello world\n"))
 	artistOutput := artistUnmarshler(url[0])
-	// locationStruct := locationUnmarshler(url[1])
-	// dataStruct := datesUnmarshler(url[2])
-	// relationStruct := relationUnmarshler(url[3])
+
+
+
+
+	locationStruct := locationUnmarshler(url[1])
+	dataStruct := datesUnmarshler(url[2])
+	relationStruct := relationUnmarshler(url[3])
 	// index := 5
 	writer.Header().Set("Content-Type", "text/html") // this tells the program to expect html files and to artistOutput files as html
 
@@ -230,8 +233,14 @@ func artist(writer http.ResponseWriter, request *http.Request) {
 
 	// fmt.Println(len(s), "s", s)
 	// fmt.Println(s)
+	var a Full
+	a.Artists = artistOutput[id] 
+	a.Locations = locationStruct[id]
+	a.Dates = dataStruct[id]
+	a.Relation = relationStruct[id]
 
-	siteTemplate.Execute(writer, artistOutput[id])
+	fmt.Println(a)
+	siteTemplate.Execute(writer, a)
 	fmt.Println(artistOutput[id].Name)
 
 }

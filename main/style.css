@@ -14,11 +14,16 @@ h2{
 }
 h3{
     text-align: center;
-    color: antiquewhite;
+    color: aqua;
+}
+header{
+    align-items: center;
 }
 
 .button{
-    align-items: center;
+    width: 50%;
+    margin-left: 25%;
+    margin-right: 25%;
     size: 50px;
     color: blue;
 }

@@ -14,15 +14,13 @@
 <body>
     <div class ="container grid">
         {{range . }}
-        <form method="post" action="artist/{{.ID}}">
+        <form method="post" title ="{{.Name}}" action="artist/{{.ID}}">
         <div class ="cell">
             <input type="image" src ="{{.Image}}" >
         </div>
     </form>
 
         {{end}}
-
-
     </div>
 </body>
 </html>

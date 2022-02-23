@@ -9,18 +9,27 @@
 
     </head>
     <body>
-        <title> {{.Name}}</title>
-        <h1>{{.Name}}</h1>
-        <h1><img src ="{{.Image}}"></h1><br><br>
-        <h2>Members: <br>
-        {{.Members}}
+        <title> {{.Artists.Name}}</title>
+        <h1>{{.Artists.Name}}</h1>
+        <h1><img src ="{{.Artists.Image}}"></h1><br><br>
+        <h2>Members: <br> <br>
+        {{range .Artists.Members}}
+        {{.}} <br>
+        {{end}}
     </h2><br>
         <h2>Creation Date: <br>
-        {{.CreationDate}}</h2>
+        {{.Artists.CreationDate}}</h2>
         <br>
         <h2>First Album:<br>
-        {{.FirstAlbum}} </h2>
+        {{.Artists.FirstAlbum}} </h2>
         <br>
+        <h1>Tour dates & Locations</h1> 
+        {{range $key, $value := .Relation.DatesLocations }}
+            <h3>{{$key}}</h3>
+            {{range $value}}
+            <h2>{{.}}</h2>
+        {{end}}
+        {{end}}
         <br><br>
         <main>
             <header>
