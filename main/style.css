@@ -1,9 +1,11 @@
 html{
+    scroll-behavior: smooth;
     margin: 0;
     padding: 0;
     background-color: black;
 }
 h1{
+    size: 400px;
     font-size: 50px;
     text-align: center;
     color: aliceblue;
@@ -18,16 +20,18 @@ h3{
     font-size: 30px;
 }
 h4 {
+    padding: 0.5rem;
     text-align: center;
+    align-items: center;
     color: antiquewhite;
     font-size: 22px;
 }
+
 header{
     align-items: center;
 }
 .wrapper{
     text-align: center;
-
 }
 
 .button{
@@ -46,11 +50,33 @@ body{
      /* background-color: black; */
      padding: 1rem;
      align-items: center;
+     text-align: center;
+     color: antiquewhite;
+     font-size: 22px;
  }
- .cells{
-     padding: 1rem;
+ .celts{
+     padding: 0.5rem;
      align-items: center;
+     text-align: center;
+     color: aliceblue;
+     font-size: 40px;
  }
+ .celt{
+    padding: 0.5rem;
+    align-items: center;
+    text-align: center;
+    color: rgb(185, 250, 250);
+    font-size: 30px;
+ }
+ .cel{
+    /* background-color: black; */
+    padding: 0.5rem;
+    align-items: center;
+    text-align: center;
+    color: antiquewhite;
+    font-size: 22px;
+}
+
  .grid {
      display: grid;
      align-items: center;
@@ -59,17 +85,17 @@ body{
      grid-template-columns: repeat(auto-fill, minmax(6.5rem, 1fr)); /*creates resposnsive layout that changes based on side of browser */
 
  }
- .grids{
-     display: grid;
-     align-items: center;
-     grid-gap: 1rem;
-     grid-template-rows: repeat(auto-fill, minmax(6rem,1fr));
- }
  .cell:hover{
      background-color:rgb(53, 52, 52);
      size: 250px;
      transform: scale(1.1);
  }
- p3{
-     align-items: center;
+ /* .cel:hover{
+     transform: scale(1.1);
+ } */
+ .celt:hover{
+     transform: scale(1.1);
+ }
+ .celts:hover{
+transform: scale(1.1);
  }

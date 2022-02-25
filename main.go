@@ -184,19 +184,15 @@ func relationUnmarshler(link string) []Relation {
 }
 func home(writer http.ResponseWriter, request *http.Request) {
 	artistOutput := artistUnmarshler("https://groupietrackers.herokuapp.com/api/artists")
+
+	writer.WriteHeader(http.StatusOK)                // displays status code ok (200) if no errors
 	writer.Header().Set("Content-Type", "text/html") // this tells the program to expect html files and to artistOutput files as html
 
 	homeTemplate.Execute(writer, artistOutput)
-
-	// keys := request.URL.Query()["image"]
-	// fmt.Println(keys)
-	// fmt.Println(request.Method)
-	// s := strings.Trim(request.RequestURI, "/artist")
-
 }
 
 func artist(writer http.ResponseWriter, request *http.Request) {
-	if request.URL.Path == "/artist/style" {  //this gets rid of duplicated url path as the css is hosted at this address
+	if request.URL.Path == "/artist/style" { //this gets rid of duplicated url path as the css is hosted at this address
 		return
 	}
 	url := [4]string{
@@ -205,36 +201,41 @@ func artist(writer http.ResponseWriter, request *http.Request) {
 		"https://groupietrackers.herokuapp.com/api/dates",
 		"https://groupietrackers.herokuapp.com/api/relation",
 	}
-	// writer.Write([]byte("hello world\n"))
 	artistOutput := artistUnmarshler(url[0])
 	locationStruct := locationUnmarshler(url[1])
 	dataStruct := datesUnmarshler(url[2])
 	relationStruct := relationUnmarshler(url[3])
-	// index := 5
+
+	// writer.WriteHeader(http.StatusOK) // displays status code 200
 	writer.Header().Set("Content-Type", "text/html") // this tells the program to expect html files and to artistOutput files as html
 
 	if err := request.ParseForm(); err != nil {
+		http.Error(writer, "500 Internal Server Error", 500)
 		return
 	}
-	request.ParseForm() //parses html form
+	request.ParseForm()   //parses html form
 	r := request.URL.Path //requests the html path
 
 	idstr := strings.Trim(r, "/artist/") //trims it so only the "id" value remains
-	id, err := strconv.Atoi(idstr) //converts it to number
+	id, err := strconv.Atoi(idstr)       //converts it to number
 	if err != nil {
-	log.Fatal(err)}
+		http.Error(writer, "400 Bad Request", 400) //handles errors if artist id tag does not contain numbers
+		return
+	}
 	id -= 1 // -1 from id as it starts at 1 in html, but at 0 in our program
+	fmt.Println(id)
 
-	// s:= request.URL.Path
+	if id >= len(artistOutput) {
+		http.Error(writer, " 404 Artis not Found", 404) //handles id tags outside of scope
+		return
+	}
 
-	// fmt.Println(len(s), "s", s)
-	// fmt.Println(s)
-	var apiStruct Full // creates a new variable with struct type that holds all structs
+	var apiStruct Full 
+	                  // creates a new variable with struct type that holds all structs
 	apiStruct.Artists = artistOutput[id] //assigns corresponding struct with id to allows the parsing of an individual id, instead of all members
 	apiStruct.Locations = locationStruct[id]
 	apiStruct.Dates = dataStruct[id]
 	apiStruct.Relation = relationStruct[id]
 
 	siteTemplate.Execute(writer, apiStruct) //sends the struct with other struct data into template execution, to be used when needed
-
 }

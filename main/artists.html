@@ -10,23 +10,30 @@
     </head>
     <body>
         <title> {{.Artists.Name}}</title>
-        <h1>{{.Artists.Name}}</h1>
+        <div class ="celts">{{.Artists.Name}}</div>
         <h1><img src ="{{.Artists.Image}}"></h1>
-        <h3>Members: </h3>
-       <h4> {{range .Artists.Members}}
-        {{.}} <br>
+        
+        <div class ="celt">Members: </div>
+         {{range .Artists.Members}}
+                <div class ="cel"> {{.}} <br>
+                </div>
         {{end}}
-    </h4>
     
-        <h3>Creation Date: </h3>
-       <h4> {{.Artists.CreationDate}} </h2>
-        <h3>First Album:</h3>
-       <h4>{{.Artists.FirstAlbum}} </h4> 
-        <h1>Tour dates & Locations</h1> 
+               <div class ="celt">Creation Date: </div>
+               <div class ="cel"> {{.Artists.CreationDate}} </div>
+               <div class ="celt">First Album:</div>
+               <div class ="cel">{{.Artists.FirstAlbum}} </div> 
+       <div class ="celts">
+        Tour dates & Locations</div>
+
         {{range $key, $value := .Relation.DatesLocations }}
-            <h3>{{$key}}</h3>
+        <div class ="celt">
+            {{$key}}
+        </div>
             {{range $value}}
-            <h4>{{.}}</h4>
+            <div class ="cel">
+            {{.}}
+            </div>
         {{end}}
         {{end}}
         <br><br>
