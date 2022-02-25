@@ -1,7 +1,8 @@
 # Description
 
 This project fetches api data, that is then used to create a website and display this fetched data through artist pages
-this incorporates structs and JSON manipulation along with more advanced html templating and css
+this incorporates structs and JSON manipulation along with more advanced html templating and css grid
+this project also uses event/action triggers with interactive images and back buttons
 
 ## USAGE:
 to use this program please follow the steps below:

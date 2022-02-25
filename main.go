@@ -223,7 +223,6 @@ func artist(writer http.ResponseWriter, request *http.Request) {
 		return
 	}
 	id -= 1 // -1 from id as it starts at 1 in html, but at 0 in our program
-	fmt.Println(id)
 
 	if id >= len(artistOutput) {
 		http.Error(writer, " 404 Artist not Found", 404) //handles id tags outside of scope
