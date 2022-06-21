@@ -15,6 +15,9 @@ import (
 
 var homeTemplate *template.Template
 var siteTemplate *template.Template
+var errorTemplate *template.Template
+var errorTemplate400 *template.Template
+
 
 type Full struct {
 	Artists   Artists
@@ -71,21 +74,16 @@ func main() {
 	// }
 	homeTemplate = template.Must(template.ParseFiles("main/home.html"))
 	siteTemplate = template.Must(template.ParseFiles("main/artists.html"))
+	errorTemplate = template.Must(template.ParseFiles("main/404.html"))
+	errorTemplate400 = template.Must(template.ParseFiles("main/400.html"))
 
-	// ArtistStruct := artistUnmarshler(url[0])
-	// locationStruct := locationUnmarshler(url[1])
-	// dataStruct := datesUnmarshler(url[2])
-	// relationStruct := relationUnmarshler(url[3])
-	// fmt.Println(ArtistStruct)
-	// fmt.Println(locationStruct[5].Locations)
-	// fmt.Println(dataStruct[5].Dates)
-	// fmt.Println(relationStruct[1])
 
 	mux := http.NewServeMux()
 	mux.HandleFunc("/main", home)
 	mux.HandleFunc("/style", css) // this handles css extension so html template can use it
 	mux.HandleFunc("/artist/style", css)
 	mux.HandleFunc("/artist/", artist)
+	// mux.HandleFunc("/artist")
 	fmt.Printf("Starting server at port 8080\n\t -----------\nhttp://localhost:8080/main\n")
 
 	if err := http.ListenAndServe(":8080", mux); err != nil {
@@ -191,6 +189,7 @@ func home(writer http.ResponseWriter, request *http.Request) {
 	homeTemplate.Execute(writer, artistOutput)
 }
 
+
 func artist(writer http.ResponseWriter, request *http.Request) {
 	if request.URL.Path == "/artist/style" { //this gets rid of duplicated url path as the css is hosted at this address
 		return
@@ -201,6 +200,7 @@ func artist(writer http.ResponseWriter, request *http.Request) {
 		"https://groupietrackers.herokuapp.com/api/dates",
 		"https://groupietrackers.herokuapp.com/api/relation",
 	}
+	
 	artistOutput := artistUnmarshler(url[0])
 	locationStruct := locationUnmarshler(url[1])
 	dataStruct := datesUnmarshler(url[2])
@@ -219,13 +219,15 @@ func artist(writer http.ResponseWriter, request *http.Request) {
 	idstr := strings.Trim(r, "/artist/") //trims it so only the "id" value remains
 	id, err := strconv.Atoi(idstr)       //converts it to number
 	if err != nil {
-		http.Error(writer, "400 Bad Request", 400) //handles errors if artist id tag does not contain numbers
+		// http.Error(writer, "400 Bad Request", 400) //handles errors if artist id tag does not contain numbers
+		errorHandler(writer,request, 400)
 		return
 	}
 	id -= 1 // -1 from id as it starts at 1 in html, but at 0 in our program
 
 	if id >= len(artistOutput) {
-		http.Error(writer, " 404 Artist not Found", 404) //handles id tags outside of scope
+		errorHandler(writer,request, 404)
+		// http.Error(writer, " 404 Artist not Found", 404) //handles id tags outside of scope
 		return
 	}
 
@@ -237,4 +239,16 @@ func artist(writer http.ResponseWriter, request *http.Request) {
 	apiStruct.Relation = relationStruct[id]
 
 	siteTemplate.Execute(writer, apiStruct) //sends the struct with other struct data into template execution, to be used when needed
+}
+
+func errorHandler( w http.ResponseWriter, r *http.Request, status int){
+	w.WriteHeader(status)
+	if status == http.StatusNotFound{
+		// fmt.Fprint(w, "custom 404")
+		errorTemplate.Execute(w, nil)
+		// return
+	}
+	if status == http.StatusBadRequest{
+		errorTemplate400.Execute(w, nil)
+	}
 }

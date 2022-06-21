@@ -1,3 +1,77 @@
+@import url("https://fonts.googleapis.com/css2?family=Open+Sans:wght@800&family=Roboto:wght@100;300&display=swap");
+:root {
+  --button: #b3b3b3;
+  --button-color: #0a0a0a;
+  --shadow: #000;
+  --bg: black;
+  --header: #7a7a7a;
+  --color: #fafafa;
+  --lit-header: #e6e6e6;
+  --speed: 2s;
+}
+* {
+  box-sizing: border-box;
+  transform-style: preserve-3d;
+}
+
+body {
+  min-height: 100vh;
+  display: flex;
+  font-family: 'Roboto', sans-serif;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: var(--bg);
+  color: var(--color);
+  perspective: 1200px;
+}
+
+p {
+  font-weight: 100;
+}
+h1 {
+  
+  font-size: clamp(5rem, 40vmin, 20rem);
+  font-family: 'Open Sans', sans-serif;
+  margin: 0;
+  margin-bottom: 1rem;
+  letter-spacing: 1rem;
+  background: radial-gradient(var(--lit-header), var(--header) 45%) var(--x) 100%/200% 200%;
+}
+.cloak {
+  animation: swing var(--speed) infinite alternate-reverse ease-in-out;
+  height: 100%;
+  width: 100%;
+  transform-origin: 50% 30%;
+  transform: rotate(calc(var(--swing-x) * -0.25deg));
+  background: radial-gradient(40% 40% at 50% 42%, transparent, #000 35%);
+}
+.cloak__wrapper {
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  overflow: hidden;
+}
+.cloak__container {
+  height: 250vmax;
+  width: 250vmax;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+.info {
+  text-align: center;
+  line-height: 1.5;
+  max-width: clamp(16rem, 90vmin, 25rem);
+}
+.info > p {
+  margin-bottom: 3rem;
+}
+
+
 html{
     scroll-behavior: smooth;
     margin: 0;
